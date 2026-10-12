@@ -1,0 +1,6 @@
+{
+  "name": "Giáo Xứ Bình An - Quỹ Kiến Thiết & Mục Vụ",
+  "description": "Trang thông tin và tiếp nhận đóng góp Quỹ kiến thiết Nhà thờ và các Mục vụ Bác ái Giáo xứ.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
