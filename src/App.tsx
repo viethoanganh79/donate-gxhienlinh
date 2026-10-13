@@ -9,12 +9,10 @@ import { HowToDonate } from './components/HowToDonate';
 import { ParishFaq } from './components/ParishFaq';
 import { Footer } from './components/Footer';
 import { DonationModal } from './components/DonationModal';
-import { AstroProjectViewerModal } from './components/AstroProjectViewerModal';
 
 export default function App() {
   const [donateModalOpen, setDonateModalOpen] = useState(false);
   const [selectedMinistryForModal, setSelectedMinistryForModal] = useState<string>('church_building');
-  const [astroModalOpen, setAstroModalOpen] = useState(false);
 
   const handleOpenDonate = (ministryId: string = 'church_building') => {
     setSelectedMinistryForModal(ministryId);
@@ -29,10 +27,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#FAF9F5] text-stone-800 flex flex-col font-sans selection:bg-blue-200 selection:text-blue-950 overflow-x-hidden max-w-full">
       {/* 1. Header Navigation */}
-      <Header
-        onOpenDonate={handleOpenDonate}
-        onOpenAstroBlueprint={() => setAstroModalOpen(true)}
-      />
+      <Header onOpenDonate={handleOpenDonate} />
 
       <main className="flex-1">
         {/* 2. Hero Section */}
@@ -65,12 +60,6 @@ export default function App() {
         isOpen={donateModalOpen}
         onClose={() => setDonateModalOpen(false)}
         selectedMinistryId={selectedMinistryForModal}
-      />
-
-      {/* Astro Blueprint & Code Deliverables Modal */}
-      <AstroProjectViewerModal
-        isOpen={astroModalOpen}
-        onClose={() => setAstroModalOpen(false)}
       />
     </div>
   );

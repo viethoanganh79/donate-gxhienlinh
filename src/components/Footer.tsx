@@ -1,6 +1,7 @@
 import React from 'react';
-import { Church, MapPin, Phone, Mail, Clock, ExternalLink, Heart } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ExternalLink, Heart } from 'lucide-react';
 import { PARISH_INFO } from '../data/parishData';
+import parishLogo from '../assets/gxHLnew.png';
 
 export const Footer: React.FC = () => {
   return (
@@ -11,12 +12,15 @@ export const Footer: React.FC = () => {
           {/* Col 1: Parish identity (4 cols) */}
           <div className="lg:col-span-4 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-900 text-amber-200 flex items-center justify-center shadow-xs">
-                <Church className="w-5 h-5 text-amber-200" />
-              </div>
+              <img
+                src={parishLogo}
+                alt=""
+                aria-hidden="true"
+                className="w-12 h-12 object-contain shrink-0"
+              />
               <div>
                 <span className="font-display text-lg font-bold text-white tracking-wide block">
-                  GIÁO XỨ BÌNH AN
+                  GIÁO XỨ HIỂN LINH
                 </span>
                 <span className="text-xs text-stone-400">
                   {PARISH_INFO.diocese}
@@ -93,7 +97,7 @@ export const Footer: React.FC = () => {
               "Nguyện xin Thiên Chúa là Cha nhân từ chúc lành và ban bình an cho quý ân nhân cùng toàn thể gia đình!"
             </p>
             <p className="text-[11px] text-stone-500">
-              © {new Date().getFullYear()} Ban Hành Giáo & Hội đồng Mục vụ Giáo Xứ Bình An. Mọi quyền được bảo lưu.
+              © {new Date().getFullYear()} Ban Hành Giáo & Hội đồng Mục vụ Giáo Xứ Hiển Linh. Mọi quyền được bảo lưu.
             </p>
           </div>
 

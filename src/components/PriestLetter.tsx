@@ -49,16 +49,16 @@ export const PriestLetter: React.FC = () => {
                     {PARISH_INFO.priestName}
                   </div>
                   <div className="text-xs text-amber-200 font-medium">
-                    Chánh xứ Giáo xứ Bình An (2018 - nay)
+                    Chánh xứ Giáo xứ Hiển Linh (2023 - nay)
                   </div>
                 </div>
               </div>
 
               {/* Bio details */}
-              <div className="p-6 bg-white space-y-3">
+              {/* <div className="p-6 bg-white space-y-3">
                 <div className="flex items-start gap-3 text-xs text-stone-600 leading-relaxed">
                   <CheckCircle2 className="w-4 h-4 text-blue-900 shrink-0 mt-0.5" />
-                  <span>Chủ tịch Ủy ban Xây dựng Thánh đường Giáo xứ Bình An</span>
+                  <span>Chủ tịch Ủy ban Xây dựng Thánh đường Giáo xứ Hiển Linh</span>
                 </div>
                 <div className="flex items-start gap-3 text-xs text-stone-600 leading-relaxed">
                   <CheckCircle2 className="w-4 h-4 text-blue-900 shrink-0 mt-0.5" />
@@ -67,14 +67,14 @@ export const PriestLetter: React.FC = () => {
                 <div className="pt-3 border-t border-stone-100 text-[11px] text-stone-400 font-mono">
                   CHỨNG THỰC BỞI TÒA TỔNG GIÁM MỤC TP. HỒ CHÍ MINH
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
           {/* Priest's Open Letter Body (7 columns) */}
           <div className="lg:col-span-7 order-1 lg:order-2 space-y-6">
             <div className="text-xs font-semibold uppercase tracking-wider text-stone-500 font-mono">
-              THƯ KÊU GỌI SỐ 08/2026/GXBA
+              THƯ NGỎ TỪ CHA CHÁNH XỨ
             </div>
 
             {/* Blockquote with refined editorial serif */}
@@ -88,45 +88,65 @@ export const PriestLetter: React.FC = () => {
               </div>
             </div>
 
+            <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-blue-950 font-serif-heading [text-wrap:balance]">
+              Chung tay xây dựng Nhà Thờ và Nhà Mục vụ Giáo xứ
+            </h3>
+
             {/* Letter Prose */}
             <div className="space-y-4 text-base text-stone-700 leading-relaxed max-w-prose">
+              <p>
+                Quý anh chị em thân mến,
+              </p>
+
               <p className="first-letter:text-5xl first-letter:font-serif first-letter:font-bold first-letter:text-blue-900 first-letter:float-left first-letter:mr-3 first-letter:mt-1">
-                Kính thưa quý ân nhân xa gần, quý cụ, quý ban ngành đoàn thể và toàn thể anh chị em giáo hữu rất thân mến trong Chúa Kitô,
+                Ngôi thánh đường hiện tại của Giáo xứ chúng ta đã gắn liền với biết bao thế hệ, là nơi chứng kiến biết bao kỷ niệm thiêng liêng và là mái nhà tâm linh nuôi dưỡng đời sống đức tin của chúng ta. Tuy nhiên, qua năm tháng, ngôi nhà thờ đã xuống cấp nghiêm trọng, không còn đáp ứng đủ nhu cầu phụng vụ và học hỏi giáo lý cho các con em của chúng ta. 
               </p>
 
               <p>
-                Trải qua hơn 74 năm thăng trầm lịch sử kể từ ngày những hàng gạch đầu tiên được đặt xuống năm 1952, ngôi nhà thờ Giáo xứ Bình An thân yêu của chúng ta đã che chở và chứng kiến bao thế hệ con cái Chúa lớn lên, lãnh nhận các Bí tích và sống trọn vẹn đức tin.
+                Xây dựng ngôi nhà thờ mới và nhà mục vụ là mong ước chung và là nhu cầu thật sự cấp thiết. Tạ ơn Chúa, Giáo xứ chúng ta đã nhận được giấy phép xây dựng. Đây là hồng ân Chúa ban sau nhiều năm tháng chúng ta mong đợi và cầu nguyện.
               </p>
 
               <p>
-                Thế nhưng hôm nay, thời gian và mưa nắng đã khiến công trình già nua xuống cấp trầm trọng. Mái ngói rạn vỡ, hệ xà gồ mối mọt rệu rã, mỗi mùa mưa về cung thánh lại thấm dột, tiềm ẩn nhiều nguy cơ mất an toàn cho cộng đoàn khi tham dự phụng vụ. Hơn thế nữa, từ một họ đạo nhỏ với 800 tín hữu năm xưa, nay giáo xứ đã đón nhận hơn 4,500 nhân danh. Thánh đường hiện tại đã quá chật hẹp; mỗi Chúa Nhật hàng trăm giáo dân, đặc biệt là các em thiếu nhi và các cụ già, phải đứng chen chúc nơi hành lang và ngoài sân nắng gắt.
+                Tổng kinh phí dự trù cho công trình ước tính khoảng 60 tỷ đồng. Nhờ lòng quảng đại của anh chị em và các ân nhân, trong những năm qua Giáo xứ đã quyên góp và được hứa giúp đỡ được khoảng 20 tỷ, nghĩa là còn thiếu khoảng 40 tỷ.
               </p>
+            
+            <p>
+              Đứng trước khoản chi phí xây cất rất lớn này, với cương vị là mục tử chăm lo giáo xứ, lòng tôi không khỏi trăn trở và bận tâm. Trong thời gian qua, tôi cùng Hội đồng Mục Vụ Giáo xứ đã đi gõ cửa một số nơi để quyên góp, trải qua không ít vất vả nhưng cũng thấm đượm tình người.
+            </p>
 
-              <p>
-                Trước nhu cầu khẩn thiết ấy, sau nhiều tháng cầu nguyện, lắng nghe và được sự chuẩn thuận của Đức Tổng Giám mục, Giáo xứ chúng ta chính thức khởi động <strong>Công trình Kiến thiết Nhà Chúa Mới</strong>.
-              </p>
-
-              <p>
-                Tôi tha thiết kêu gọi mỗi gia đình, từng cá nhân trong giáo xứ, cùng quý ân nhân đồng hương hải ngoại và quý vị hảo tâm gần xa: hãy mở rộng vòng tay, cùng chung chia một viên gạch, một bao xi măng, một lời cầu nguyện, để ngôi thánh đường của Thiên Chúa sớm được hoàn thành trang nghiêm và bền vững.
-              </p>
+            <p>
+              Nhưng anh chị em thân mến, nhà thờ giáo xứ trước hết là ngôi nhà chung của chính chúng ta. Một ngôi thánh đường chỉ thực sự ấm cúng và linh thiêng khi được dựng xây từ chính công sức, sự hy sinh và lòng mến của từng người con trong Giáo xứ.
+            </p>
+            <p>
+              Chúa không nhìn vào số lượng dâng góp, nhưng Ngài nhìn vào tấm lòng của chúng ta. Mỗi người tuỳ theo khả năng của mình, mỗi sự đóng góp, dù là một ngày công, một khoản tiết kiệm nhỏ hàng tuần hay một lời cầu nguyện chân thành, đều là những “viên gạch” vô giá dựng xây nên ngôi Nhà Chúa.
+            </p>
+            <p>
+              Tôi tha thiết kêu gọi quý anh chị em, hãy cầu nguyện và mở rộng lòng quảng đại cùng chung tay với Giáo xứ trong sứ vụ này. Để mai này, chúng ta có thể tự hào nói với con cháu rằng ngôi thánh đường này đã được dựng xây từ tình yêu và sự hy sinh của chính chúng ta.
+            </p>
+            <p>
+              Anh chị em có thể đóng góp tại Văn phòng Giáo xứ, qua Ban Điều hành Giáo khu, hoặc chuyển khoản: Tên tài khoản: <strong>Giáo Xứ Hiển Linh</strong>; Số tài khoản: <strong>1042102288</strong>, nội dung xin ghi “Họ tên - Giáo khu - Xây nhà thờ”. Mọi đóng góp sẽ được công bố minh bạch.
+            </p>
+            <p>
+              Xin Thiên Chúa, Đấng không bao giờ quên lòng quảng đại của chúng ta, trả công dồi dào và ban bình an cho anh chị em. 
+            </p>
+            <p>
+              
+            </p>
             </div>
 
             {/* Signature Block */}
             <div className="pt-6 border-t border-stone-200 flex items-center justify-between">
               <div>
                 <div className="text-sm font-semibold text-stone-900">
-                  Lm. Giuse Nguyễn Văn Hiền
+                  Lm. Phêrô Nguyễn Đức Trí, SJ
                 </div>
                 <div className="text-xs text-stone-500">
-                  Chánh xứ Giáo xứ Bình An
+                  Chánh xứ Giáo xứ Hiển Linh
                 </div>
               </div>
               <div className="text-right">
                 <div className="text-xs text-stone-400 font-serif italic">
-                  Hiệp thông & Tri ân
-                </div>
-                <div className="text-xs text-blue-900 font-medium mt-0.5">
-                  Nguyện Chúa chúc lành!
+                  Hiển Linh, lễ Thánh Têrêsa, ngày 01/10/2026 
                 </div>
               </div>
             </div>

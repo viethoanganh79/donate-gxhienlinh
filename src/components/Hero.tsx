@@ -23,7 +23,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
         {!imageError ? (
           <img
             src={heroImagePath}
-            alt="Phối cảnh 3D công trình Nhà thờ Giáo xứ Bình An mới"
+            alt="Phối cảnh 3D công trình Nhà thờ Giáo xứ Hiển Linh mới"
             referrerPolicy="no-referrer"
             onLoad={() => setImageLoaded(true)}
             onError={() => setImageError(true)}
@@ -50,7 +50,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
             <Church className="w-4 h-4 text-amber-400" />
             <span>Đại Công Trình Thế Kỷ 2026 - 2028</span>
             <span aria-hidden="true">·</span>
-            <span>Giáo Xứ Bình An</span>
+            <span>Giáo Xứ Hiển Linh</span>
           </div>
 
           {/* Main Headline */}
@@ -89,7 +89,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
           <div className="min-w-0">
             <div className="text-[11px] sm:text-xs uppercase tracking-wider text-stone-400 truncate">Mục tiêu kinh phí</div>
             <div className="text-lg sm:text-2xl font-bold text-white mt-1 tabular-nums font-serif">
-              15.0 <span className="text-xs font-normal text-amber-300">Tỷ VNĐ</span>
+              60.0 <span className="text-xs font-normal text-amber-300">Tỷ VNĐ</span>
             </div>
             <div className="text-[11px] sm:text-xs text-stone-400 mt-0.5 truncate">Quy mô 1,200 chỗ ngồi</div>
           </div>
@@ -97,7 +97,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
           <div className="min-w-0">
             <div className="text-[11px] sm:text-xs uppercase tracking-wider text-stone-400 truncate">Tiến độ quyên góp</div>
             <div className="text-lg sm:text-2xl font-bold text-amber-400 mt-1 tabular-nums font-serif">
-              {percentRaised}% <span className="text-xs font-normal text-stone-300">(10.25 Tỷ)</span>
+              {percentRaised}% <span className="text-xs font-normal text-stone-300">(20.00 Tỷ)</span>
             </div>
             <div className="text-[11px] sm:text-xs text-stone-400 mt-0.5 truncate">Giai đoạn ép cọc móng</div>
           </div>
@@ -113,7 +113,7 @@ export const Hero: React.FC<HeroProps> = ({ onOpenDonate }) => {
           <div className="min-w-0">
             <div className="text-[11px] sm:text-xs uppercase tracking-wider text-stone-400 truncate">Thời gian khởi công</div>
             <div className="text-lg sm:text-2xl font-bold text-white mt-1 font-serif">
-              Q3 / 2026
+              Q4 / 2026
             </div>
             <div className="text-[11px] sm:text-xs text-stone-400 mt-0.5 truncate">Dự kiến hoàn thành 2028</div>
           </div>

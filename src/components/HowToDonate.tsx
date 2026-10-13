@@ -17,6 +17,12 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { BANK_ACCOUNTS, PARISH_INFO } from '../data/parishData';
+import {
+  DONATION_PRESET_AMOUNTS,
+  DONATION_ZONES,
+  removeVietnameseDiacritics,
+  sanitizeDonorName,
+} from '../data/donationOptions';
 
 interface HowToDonateProps {
   initialMinistryId?: string;
@@ -33,16 +39,16 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
       ? 'KHUYENHOC'
       : initialMinistryId === 'choir'
       ? 'THANHNHAC'
-      : 'KIENTHIET'
+      : 'XAY NHA THO'
   );
   const [donorName, setDonorName] = useState<string>('');
-  const [donorPhone, setDonorPhone] = useState<string>('');
+  const [donorZone, setDonorZone] = useState<string>('');
   const [prayerIntention, setPrayerIntention] = useState<string>('');
   const [customAmount, setCustomAmount] = useState<number>(500000);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [hasGeneratedQr, setHasGeneratedQr] = useState<boolean>(true);
   const [isDonatedConfirmed, setIsDonatedConfirmed] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<'qr' | 'bank' | 'office'>('qr');
+  const [activeTab, setActiveTab] = useState<'qr' | 'office'>('qr');
 
   // Synchronize ministry when prop changes
   React.useEffect(() => {
@@ -50,7 +56,7 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
     else if (initialMinistryId === 'youth') setSelectedMinistry('THIEUNHI');
     else if (initialMinistryId === 'scholarship') setSelectedMinistry('KHUYENHOC');
     else if (initialMinistryId === 'choir') setSelectedMinistry('THANHNHAC');
-    else setSelectedMinistry('KIENTHIET');
+    else setSelectedMinistry('XAY NHA THO');
   }, [initialMinistryId]);
 
   const selectedBank = BANK_ACCOUNTS[selectedBankIndex];
@@ -65,32 +71,22 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
   };
 
   // Generate transfer syntax:
-  const sanitizedName = donorName.trim()
-    ? donorName
-        .trim()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-zA-Z0-9 ]/g, '')
-        .toUpperCase()
-    : 'AN NHAN AN DANH';
+  const sanitizedName = sanitizeDonorName(donorName);
+  const sanitizedZone = removeVietnameseDiacritics(donorZone);
 
-  const sanitizedPhone = donorPhone.trim().replace(/[^0-9]/g, '');
-
-  const transferSyntax = sanitizedPhone
-    ? `GXBA ${selectedMinistry} ${sanitizedName} ${sanitizedPhone}`
-    : `GXBA ${selectedMinistry} ${sanitizedName}`;
+  const transferSyntax = donorZone
+    ? `${sanitizedName} - ${sanitizedZone} - ${selectedMinistry}`
+    : `${sanitizedName} - ${selectedMinistry}`;
 
   // VietQR Dynamic URL (uses standard VietQR format with pre-filled amount and memo)
   const vietQrUrl = `https://img.vietqr.io/image/${selectedBank.shortName.toLowerCase().replace(/\s+/g, '')}-${selectedBank.accountNumber}-compact2.png?amount=${customAmount}&addInfo=${encodeURIComponent(
     transferSyntax
   )}&accountName=${encodeURIComponent(selectedBank.accountHolder)}`;
 
-  const presetAmounts = [200000, 500000, 1000000, 2000000, 5000000, 10000000];
-
   const getMinistryLabel = (code: string) => {
     switch (code) {
-      case 'KIENTHIET':
-        return 'Quỹ Kiến Thiết Nhà Thờ Mới';
+      case 'XAY NHA THO':
+        return 'Quỹ Xây dựng Nhà Thờ Mới';
       case 'CARITAS':
         return 'Quỹ Bác Ái Caritas';
       case 'THIEUNHI':
@@ -100,13 +96,13 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
       case 'THANHNHAC':
         return 'Ban Phụng Vụ & Thánh Nhạc';
       default:
-        return 'Quỹ Kiến Thiết Nhà Thờ';
+        return 'Quỹ Xây dựng Nhà Thờ Mới';
     }
   };
 
   return (
     <section id="dong-gop" className="py-20 lg:py-28 bg-[#FAF9F5] border-b border-stone-200 overflow-x-hidden max-w-full">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 max-w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="max-w-3xl mb-10 sm:mb-14">
           <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-blue-900">
@@ -124,7 +120,7 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
         </div>
 
         {/* 3 Donation Methods Tabs (Responsive Grid - Never overflows on mobile) */}
-        <div className="grid grid-cols-3 gap-1.5 p-1 bg-stone-200/80 rounded-xl max-w-lg mb-8 w-full">
+        <div className="grid grid-cols-2 gap-1.5 p-1 bg-stone-200/80 rounded-xl max-w-lg mb-8 w-full">
           <button
             onClick={() => setActiveTab('qr')}
             className={`w-full py-2.5 px-1 sm:px-3 text-[11px] sm:text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${
@@ -134,18 +130,7 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
             }`}
           >
             <QrCode className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Quét VietQR</span>
-          </button>
-          <button
-            onClick={() => setActiveTab('bank')}
-            className={`w-full py-2.5 px-1 sm:px-3 text-[11px] sm:text-xs font-semibold rounded-lg transition-all flex items-center justify-center gap-1 sm:gap-1.5 ${
-              activeTab === 'bank'
-                ? 'bg-blue-900 text-white shadow-sm'
-                : 'text-stone-700 hover:text-stone-900'
-            }`}
-          >
-            <CreditCard className="w-3.5 h-3.5 shrink-0" />
-            <span className="truncate">Chuyển Khoản</span>
+            <span className="truncate">Quét Mã chuyển khoản</span>
           </button>
           <button
             onClick={() => setActiveTab('office')}
@@ -187,7 +172,7 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
                   }}
                   className="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-800 font-medium"
                 >
-                  <option value="KIENTHIET">Quỹ Kiến Thiết Thánh Đường Mới (Ưu tiên hàng đầu)</option>
+                  <option value="XAY NHA THO">Quỹ Xây dựng Nhà Thờ Mới (60 Tỷ)</option>
                   <option value="CARITAS">Quỹ Bác Ái Caritas (Người nghèo & bệnh nhân)</option>
                   <option value="THIEUNHI">Xứ Đoàn Thiếu Nhi Thánh Thể (600 thiếu nhi)</option>
                   <option value="KHUYENHOC">Quỹ Khuyến Học Tôma Thiện (Học bổng)</option>
@@ -217,21 +202,21 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    Số điện thoại (tùy chọn):
+                    Giáo khu (tùy chọn):
                   </label>
-                  <input
-                    type="tel"
-                    placeholder="VD: 0908123456"
-                    value={donorPhone}
+                  <select
+                    value={donorZone}
                     onChange={(e) => {
-                      setDonorPhone(e.target.value);
+                      setDonorZone(e.target.value);
                       setIsDonatedConfirmed(false);
                     }}
-                    className="w-full px-3.5 py-2 text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-800 font-mono"
-                  />
-                  <span className="text-[10px] sm:text-[11px] text-stone-400 mt-0.5 block truncate">
-                    (Để nhận tin nhắn biên nhận từ Giáo xứ)
-                  </span>
+                    className="w-full px-3.5 py-2 text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                  >
+                    <option value="">Chọn giáo khu</option>
+                    {DONATION_ZONES.map((zone) => (
+                      <option key={zone} value={zone}>{zone}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -261,7 +246,7 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
               <div className="space-y-1.5 pt-1">
                 <span className="text-[11px] sm:text-xs text-stone-500 font-medium">Mức gợi ý nhanh:</span>
                 <div className="flex flex-wrap gap-1.5">
-                  {presetAmounts.map((amt) => (
+                  {DONATION_PRESET_AMOUNTS.map((amt) => (
                     <button
                       key={amt}
                       onClick={() => {
@@ -322,14 +307,14 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
               <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 space-y-2.5 text-xs text-stone-700">
                 <div className="font-bold text-stone-900 flex items-center gap-1.5 text-sm">
                   <MapPin className="w-4 h-4 text-blue-900" />
-                  <span>Văn phòng Giáo xứ Bình An</span>
+                  <span>Văn phòng Giáo xứ Hiển Linh</span>
                 </div>
                 <p>📍 {PARISH_INFO.address}</p>
                 <p>⏰ {PARISH_INFO.officeHours}</p>
                 <p>📞 {PARISH_INFO.phone} · Hotline: {PARISH_INFO.hotline}</p>
-                <div className="pt-2 border-t border-stone-200 text-emerald-800 font-medium">
+                {/* <div className="pt-2 border-t border-stone-200 text-emerald-800 font-medium">
                   ✓ Nhận trực tiếp phiếu công đức có mộc đỏ của Giáo xứ.
-                </div>
+                </div> */}
               </div>
             )}
           </div>
@@ -346,10 +331,10 @@ export const HowToDonate: React.FC<HowToDonateProps> = ({ initialMinistryId = 'c
                   </div>
                   <div>
                     <span className="text-xs font-bold text-blue-950 uppercase tracking-wider block">
-                      MÃ VIETQR ĐÃ TỰ ĐỘNG KHỞI TẠO
+                      MÃ CHUYỂN KHOẢN TỰ ĐỘNG
                     </span>
                     <span className="text-[10px] text-stone-500 font-mono">
-                      KHỚP {customAmount.toLocaleString('vi-VN')} Đ & CÚ PHÁP
+                      KHỚP {customAmount.toLocaleString('vi-VN')}Đ & CÚ PHÁP
                     </span>
                   </div>
                 </div>

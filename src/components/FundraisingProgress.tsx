@@ -68,7 +68,7 @@ export const FundraisingProgress: React.FC<FundraisingProgressProps> = ({ onOpen
                 <span className="truncate">Mục tiêu kinh phí</span>
               </div>
               <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-stone-900 mt-1 tabular-nums font-serif break-words">
-                15,000,000,000 <span className="text-xs sm:text-sm font-sans font-normal text-stone-500">VNĐ</span>
+                60,000,000,000 <span className="text-xs sm:text-sm font-sans font-normal text-stone-500">VNĐ</span>
               </div>
               <div className="text-xs text-stone-500 mt-1">Dự toán toàn bộ công trình</div>
             </div>
@@ -79,7 +79,7 @@ export const FundraisingProgress: React.FC<FundraisingProgressProps> = ({ onOpen
                 <span className="truncate">Đã quyên góp</span>
               </div>
               <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-900 mt-1 tabular-nums font-serif break-words">
-                10,250,000,000 <span className="text-xs sm:text-sm font-sans font-normal text-blue-700">VNĐ</span>
+                20,000,000,000 <span className="text-xs sm:text-sm font-sans font-normal text-blue-700">VNĐ</span>
               </div>
               <div className="text-xs font-semibold text-blue-800 mt-1">
                 Đạt {percentRaised}% tổng chỉ tiêu

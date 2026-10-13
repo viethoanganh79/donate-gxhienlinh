@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { Church, Menu, X, Heart, Code2 } from 'lucide-react';
+import { Menu, X, Heart } from 'lucide-react';
+import parishLogo from '../assets/gxHLnew.png';
 
 interface HeaderProps {
   onOpenDonate: (ministryId?: string) => void;
-  onOpenAstroBlueprint: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onOpenDonate, onOpenAstroBlueprint }) => {
+export const Header: React.FC<HeaderProps> = ({ onOpenDonate }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -18,15 +18,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDonate, onOpenAstroBluepri
             href="#"
             className="flex items-center gap-2.5 sm:gap-3.5 group text-stone-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700 rounded-lg p-1 min-w-0"
           >
-            <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-blue-900 text-amber-200 flex items-center justify-center shadow-sm group-hover:bg-blue-950 transition-colors shrink-0">
-              <Church className="w-5 h-5 text-amber-200" />
-            </div>
+            <img
+              src={parishLogo}
+              alt=""
+              aria-hidden="true"
+              className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0"
+            />
             <div className="flex flex-col min-w-0">
               <span className="font-display text-base sm:text-lg lg:text-xl font-bold tracking-tight text-blue-950 leading-none whitespace-nowrap">
-                GIÁO XỨ BÌNH AN
+                GIÁO XỨ HIỂN LINH
               </span>
               <span className="text-[10px] sm:text-[11px] font-sans font-medium text-stone-500 tracking-wider uppercase mt-1 truncate">
-                Tổng Giáo Phận Sài Gòn
+                Giáo Hạt Thủ Đức, Tổng Giáo Phận Sài Gòn
               </span>
             </div>
           </a>
@@ -65,17 +68,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDonate, onOpenAstroBluepri
             </a>
           </nav>
 
-          {/* Zone 3: 1 primary action + helper view */}
+          {/* Zone 3: Primary action */}
           <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-            <button
-              onClick={onOpenAstroBlueprint}
-              title="Xem mã nguồn Astro Project"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-stone-600 hover:text-stone-900 bg-stone-100/90 hover:bg-stone-200/80 border border-stone-200 rounded-lg transition-colors whitespace-nowrap shrink-0"
-            >
-              <Code2 className="w-3.5 h-3.5 text-blue-800" />
-              <span>Astro Blueprint</span>
-            </button>
-
             <button
               onClick={() => onOpenDonate('church_building')}
               className="inline-flex items-center gap-1.5 sm:gap-2 px-3 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-sm font-semibold text-white bg-blue-900 hover:bg-blue-950 active:bg-blue-950 rounded-lg shadow-sm hover:shadow transition-all duration-150 whitespace-nowrap shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-700"
@@ -146,16 +140,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDonate, onOpenAstroBluepri
             >
               <Heart className="w-4 h-4 fill-amber-300 text-amber-300" />
               Ủng hộ Quỹ Nhà Thờ
-            </button>
-            <button
-              onClick={() => {
-                setMobileMenuOpen(false);
-                onOpenAstroBlueprint();
-              }}
-              className="w-full flex items-center justify-center gap-2 py-2 text-xs font-medium text-stone-700 bg-stone-100 border border-stone-200 rounded-lg"
-            >
-              <Code2 className="w-3.5 h-3.5" />
-              Xem mã nguồn Astro Project
             </button>
           </div>
         </div>

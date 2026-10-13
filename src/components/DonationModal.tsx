@@ -14,7 +14,13 @@ import {
   Building2,
   Sparkles
 } from 'lucide-react';
-import { BANK_ACCOUNTS, PARISH_MINISTRIES } from '../data/parishData';
+import { BANK_ACCOUNTS } from '../data/parishData';
+import {
+  DONATION_PRESET_AMOUNTS,
+  DONATION_ZONES,
+  removeVietnameseDiacritics,
+  sanitizeDonorName,
+} from '../data/donationOptions';
 
 interface DonationModalProps {
   isOpen: boolean;
@@ -28,11 +34,12 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   selectedMinistryId = 'church_building',
 }) => {
   const [step, setStep] = useState<'info' | 'qr'>('info');
-  const [ministryCode, setMinistryCode] = useState<string>('KIENTHIET');
+  const [ministryCode, setMinistryCode] = useState<string>('XAY NHA THO');
   const [donorName, setDonorName] = useState('');
-  const [donorPhone, setDonorPhone] = useState('');
+  const [donorZone, setDonorZone] = useState('');
   const [prayerIntention, setPrayerIntention] = useState('');
   const [amount, setAmount] = useState(500000);
+  const [selectedBankIndex, setSelectedBankIndex] = useState(0);
   const [copiedField, setCopiedField] = useState<string | null>(null);
   const [confirmedDonation, setConfirmedDonation] = useState(false);
 
@@ -42,7 +49,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
     else if (selectedMinistryId === 'youth') setMinistryCode('THIEUNHI');
     else if (selectedMinistryId === 'scholarship') setMinistryCode('KHUYENHOC');
     else if (selectedMinistryId === 'choir') setMinistryCode('THANHNHAC');
-    else setMinistryCode('KIENTHIET');
+    else setMinistryCode('XAY NHA THO');
 
     setConfirmedDonation(false);
   }, [selectedMinistryId, isOpen]);
@@ -69,22 +76,13 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
   if (!isOpen) return null;
 
-  const bank = BANK_ACCOUNTS[0]; // Vietcombank primary
+  const bank = BANK_ACCOUNTS[selectedBankIndex];
+  const sanitizedName = sanitizeDonorName(donorName);
+  const sanitizedZone = removeVietnameseDiacritics(donorZone);
 
-  const sanitizedName = donorName.trim()
-    ? donorName
-        .trim()
-        .normalize('NFD')
-        .replace(/[\u0300-\u036f]/g, '')
-        .replace(/[^a-zA-Z0-9 ]/g, '')
-        .toUpperCase()
-    : 'AN NHAN AN DANH';
-
-  const sanitizedPhone = donorPhone.trim().replace(/[^0-9]/g, '');
-
-  const syntax = sanitizedPhone
-    ? `GXBA ${ministryCode} ${sanitizedName} ${sanitizedPhone}`
-    : `GXBA ${ministryCode} ${sanitizedName}`;
+  const syntax = donorZone
+    ? `${sanitizedName} - ${sanitizedZone} - ${ministryCode}`
+    : `${sanitizedName} - ${ministryCode}`;
 
   const qrUrl = `https://img.vietqr.io/image/${bank.shortName.toLowerCase().replace(/\s+/g, '')}-${bank.accountNumber}-compact2.png?amount=${amount}&addInfo=${encodeURIComponent(
     syntax
@@ -96,11 +94,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({
     setTimeout(() => setCopiedField(null), 2000);
   };
 
-  const presetAmounts = [200000, 500000, 1000000, 2000000, 5000000, 10000000];
-
   const getMinistryLabel = (code: string) => {
     switch (code) {
-      case 'KIENTHIET':
+      case 'XAY NHA THO':
         return 'Quỹ Kiến Thiết Nhà Thờ Mới';
       case 'CARITAS':
         return 'Quỹ Bác Ái Caritas';
@@ -111,7 +107,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       case 'THANHNHAC':
         return 'Ban Phụng Vụ & Thánh Nhạc';
       default:
-        return 'Quỹ Kiến Thiết Nhà Thờ';
+        return 'Quỹ Xây dựng Nhà Thờ Mới';
     }
   };
 
@@ -131,7 +127,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             </div>
             <div className="min-w-0">
               <h3 className="text-base sm:text-lg font-bold font-serif-heading text-blue-950 truncate">
-                Ủng Hộ Giáo Xứ Bình An
+                Ủng Hộ Giáo Xứ Hiển Linh
               </h3>
               <p className="text-[11px] text-stone-500 truncate">
                 {getMinistryLabel(ministryCode)}
@@ -192,8 +188,8 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   }}
                   className="w-full px-3 py-2 text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-800 font-medium"
                 >
-                  <option value="KIENTHIET">Quỹ Kiến Thiết Nhà Thờ Mới (15 Tỷ)</option>
-                  <option value="CARITAS">Quỹ Bác Ái Caritas (Nâng đỡ người nghèo)</option>
+                  <option value="XAY NHA THO">Quỹ Kiến Thiết Thánh Đường Mới (Ưu tiên hàng đầu)</option>
+                  <option value="CARITAS">Quỹ Bác Ái Caritas (Người nghèo & bệnh nhân)</option>
                   <option value="THIEUNHI">Xứ Đoàn Thiếu Nhi Thánh Thể (600 thiếu nhi)</option>
                   <option value="KHUYENHOC">Quỹ Khuyến Học Tôma Thiện (Học bổng)</option>
                   <option value="THANHNHAC">Ban Phụng Vụ & Thánh Nhạc (Ca đoàn)</option>
@@ -222,21 +218,21 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
                 <div>
                   <label className="block text-xs font-semibold text-stone-700 mb-1">
-                    Số điện thoại (tùy chọn):
+                    Giáo khu (tùy chọn):
                   </label>
-                  <input
-                    type="tel"
-                    placeholder="VD: 0908123456"
-                    value={donorPhone}
+                  <select
+                    value={donorZone}
                     onChange={(e) => {
-                      setDonorPhone(e.target.value);
+                      setDonorZone(e.target.value);
                       setConfirmedDonation(false);
                     }}
-                    className="w-full px-3 py-2 text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-800 font-mono"
-                  />
-                  <span className="text-[10px] text-stone-400 mt-0.5 block truncate">
-                    (Nhận tin nhắn cảm tạ của Cha Xứ)
-                  </span>
+                    className="w-full px-3 py-2 text-xs sm:text-sm bg-stone-50 border border-stone-300 rounded-lg text-stone-900 focus:outline-none focus:ring-2 focus:ring-blue-800"
+                  >
+                    <option value="">Chọn giáo khu</option>
+                    {DONATION_ZONES.map((zone) => (
+                      <option key={zone} value={zone}>{zone}</option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
@@ -263,7 +259,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
                 {/* Amount presets */}
                 <div className="flex flex-wrap gap-1.5 mt-2">
-                  {presetAmounts.map((amt) => (
+                  {DONATION_PRESET_AMOUNTS.map((amt) => (
                     <button
                       key={amt}
                       type="button"
@@ -296,6 +292,32 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                 />
               </div>
 
+              <div>
+                <span className="text-xs font-semibold text-stone-700 block mb-1.5">
+                  Ngân hàng tiếp nhận:
+                </span>
+                <div className="flex flex-wrap gap-2">
+                  {BANK_ACCOUNTS.map((bankOption, index) => (
+                    <button
+                      key={bankOption.shortName}
+                      type="button"
+                      onClick={() => {
+                        setSelectedBankIndex(index);
+                        setConfirmedDonation(false);
+                      }}
+                      className={`text-xs px-3 py-1.5 rounded-lg font-medium transition-all flex items-center gap-1.5 ${
+                        selectedBankIndex === index
+                          ? 'bg-blue-900 text-white shadow-xs'
+                          : 'bg-stone-100 text-stone-700 hover:bg-stone-200'
+                      }`}
+                    >
+                      <Building2 className="w-3.5 h-3.5" />
+                      <span>{bankOption.shortName}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="p-3 bg-blue-50/70 border border-blue-200 rounded-xl text-xs text-blue-950 flex items-center justify-between">
                 <div>
                   <div className="text-[11px] text-stone-500">Cú pháp sẽ tạo:</div>
@@ -322,7 +344,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
               {/* Centered QR Frame */}
               <div className="flex flex-col items-center justify-center p-4 bg-[#FAF9F5] rounded-2xl border border-stone-200">
-                <div className="w-44 h-44 sm:w-48 sm:h-48 bg-white p-2 rounded-xl shadow-xs border border-stone-200 flex items-center justify-center shrink-0">
+                <div className="w-48 h-48 sm:w-56 sm:h-56 bg-white p-2 rounded-xl shadow-xs border border-stone-200 flex items-center justify-center shrink-0">
                   <img
                     src={qrUrl}
                     alt="Mã VietQR"
