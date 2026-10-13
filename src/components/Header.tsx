@@ -29,7 +29,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenDonate }) => {
                 GIÁO XỨ HIỂN LINH
               </span>
               <span className="text-[10px] sm:text-[11px] font-sans font-medium text-stone-500 tracking-wider uppercase mt-1 truncate">
-                Giáo Hạt Thủ Đức, Tổng Giáo Phận Sài Gòn
+                Giáo Hạt Thủ Đức, TGP Sài Gòn
               </span>
             </div>
           </a>
